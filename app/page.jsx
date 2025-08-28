@@ -74,11 +74,11 @@ export default function HomePage() {
 
         {/* Mobile Layout */}
         <div className="lg:hidden space-y-6 max-w-lg mx-auto">
-          <div className="text-center">
+          {/* <div className="text-center">
             <p className="text-lg font-bold text-black">
               What's in your kitchen?
             </p>
-          </div>
+          </div> */}
 
           <IngredientTextInput 
             onIngredientsChange={setTypedIngredients}

@@ -9,7 +9,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-  <body className="min-h-screen bg-red-100 text-amber-900">
+  <body className="min-h-screen">
         <div className="min-h-screen flex flex-col">
           <header className="bg-white-100">
             <div className="container mx-auto px- py-1 flex items-center gap-4">
@@ -21,11 +21,6 @@ export default function RootLayout({ children }) {
           <main className="flex-1 container mx-auto px-4 py-8">
             {children}
           </main>
-          <footer className="bg-red-100 border-t border-red-200 py-4">
-            <div className="container mx-auto px-4 text-center text-black">
-              <p>Powered by Hashbrown AI</p>
-            </div>
-          </footer>
         </div>
       </body>
     </html>

@@ -10,7 +10,7 @@ export const RecipeChatSimple = ({ ingredients, onIngredientRequest, onReady }) 
   // Use structured completion for recipe generation
   const { output: recipe, isLoading } = useStructuredCompletion({
     debugName: 'RecipeGenerator',
-    model: 'gpt-4o-mini',
+    model: 'gpt-4.1',
     system: `You are a creative breakfast chef assistant. Generate delicious breakfast recipes based on the ingredients users provide.
       Create engaging breakfast recipes that use the provided ingredients creatively.
       Always include clear ingredients lists, step-by-step directions, servings, and cooking time.`,
@@ -71,8 +71,8 @@ export const RecipeChatSimple = ({ ingredients, onIngredientRequest, onReady }) 
       {/* Working indicator */}
       {isLoading && (
         <div className="text-center mb-4">
-          <div className="inline-flex items-center gap-2 text-amber-700 text-sm">
-            <div className="animate-spin rounded-full h-4 w-4 border-2 border-amber-300 border-t-amber-600"></div>
+          <div className="inline-flex items-center gap-2 text-gray-700 text-sm">
+            <div className="animate-spin rounded-full h-4 w-4 border-2 border-red-300 border-t-red-600"></div>
             Thinking about your ingredients...
           </div>
         </div>
@@ -86,8 +86,8 @@ export const RecipeChatSimple = ({ ingredients, onIngredientRequest, onReady }) 
             onSave={handleSaveRecipe}
           />
         ) : (
-          <div className="text-center text-amber-600 mt-8">
-            <div className="w-16 h-16 mx-auto mb-4 bg-amber-100 rounded-full flex items-center justify-center">
+          <div className="text-center text-gray-600 mt-8">
+            <div className="w-16 h-16 mx-auto mb-4 bg-red-100 rounded-full flex items-center justify-center">
               <span className="text-2xl">🍳</span>
             </div>
             <p>Select ingredients and I'll create a recipe for you!</p>
@@ -101,7 +101,7 @@ export const RecipeChatSimple = ({ ingredients, onIngredientRequest, onReady }) 
           <button
             onClick={() => generateRecipe(ingredients)}
             disabled={isLoading}
-            className="w-full bg-amber-600 text-white py-2 px-4 rounded-lg hover:bg-amber-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors font-medium text-sm"
+            className="w-full bg-red-600 text-white py-2 px-4 rounded-lg hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors font-medium text-sm"
           >
             {isLoading ? 'Creating Recipe...' : 'Generate New Recipe'}
           </button>
