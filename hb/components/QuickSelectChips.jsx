@@ -1,15 +1,16 @@
 import { useState } from 'react'
-
-const COMMON_INGREDIENTS = [
-  'Eggs', 'Bacon', 'Bread', 'Butter', 'Milk', 'Cheese',
-  'Flour', 'Sugar', 'Salt', 'Pepper', 'Oil', 'Onions',
-  'Potatoes', 'Tomatoes', 'Spinach', 'Mushrooms',
-  'Oats', 'Bananas', 'Berries', 'Yogurt', 'Honey',
-  'Avocado', 'Ham', 'Sausage', 'Bell Peppers'
-]
+import { useStructuredCompletion } from '@hashbrownai/react'
+import { s } from '@hashbrownai/core'
 
 export const QuickSelectChips = ({ selectedIngredients = [], onSelectionChange }) => {
   const [selected, setSelected] = useState(new Set(selectedIngredients))
+  const { output } = useStructuredCompletion({
+    debugName: 'CommonIngredients',
+    model: 'gpt-4.1',
+    system: `You are a helpful assistant that suggests common breakfast ingredients.`,
+    input: 'List common breakfast ingredients.',
+    schema: s.streaming.array('The list of common breakfast ingredients', s.string('An ingredient name')),
+  })
 
   const toggleIngredient = (ingredient) => {
     const newSelected = new Set(selected)
@@ -30,7 +31,7 @@ export const QuickSelectChips = ({ selectedIngredients = [], onSelectionChange }
         Or select common ingredients:
       </label>
       <div className="flex flex-wrap gap-2">
-        {COMMON_INGREDIENTS.map((ingredient) => {
+        {output && output.map((ingredient) => {
           const isSelected = selected.has(ingredient)
           return (
             <button
