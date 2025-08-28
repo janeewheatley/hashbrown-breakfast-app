@@ -1,24 +1,22 @@
 import { NextResponse } from 'next/server'
 import { HashbrownOpenAI } from '@hashbrownai/openai'
-import { generateRequestSchema } from '../../../lib/schemas.js'
 import { layoutSchema } from '../../../hb/schema.js'
 
-export const runtime = 'edge'
+export const runtime = 'nodejs'
 
 export async function POST(request) {
   try {
     const body = await request.json()
     
     // Validate request
-    const validation = generateRequestSchema.safeParse(body)
-    if (!validation.success) {
+    if (!body.prompt || typeof body.prompt !== 'string') {
       return NextResponse.json(
-        { error: 'Invalid request format', details: validation.error.errors },
+        { error: 'Invalid request format: prompt is required and must be a string' },
         { status: 400 }
       )
     }
 
-    const { prompt } = validation.data
+    const { prompt } = body
     
     const OPENAI_API_KEY = process.env.OPENAI_API_KEY
     if (!OPENAI_API_KEY) {
@@ -34,7 +32,7 @@ export async function POST(request) {
     Structure your response using the provided schema for better presentation.`
 
     const completionParams = {
-      model: 'gpt-4o-mini',
+      model: 'gpt-4.1',
       messages: [
         { role: 'system', content: systemPrompt },
         { role: 'user', content: prompt }
