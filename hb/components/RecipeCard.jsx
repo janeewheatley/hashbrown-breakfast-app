@@ -22,6 +22,14 @@ export const RecipeCard = ({
     }
   }
 
+  // Handle both title and name properties
+  const recipeTitle = recipe.title || recipe.name || "Delicious Breakfast Recipe"
+  
+  // Ensure arrays for ingredients and directions/instructions
+  const ingredients = Array.isArray(recipe.ingredients) ? recipe.ingredients : []
+  const directions = recipe.directions || recipe.instructions || []
+  const directionsArray = Array.isArray(directions) ? directions : []
+
   return (
     <div className={`bg-white rounded-xl shadow-lg border border-red-200 overflow-hidden ${className}`}>
       {/* Recipe Image */}
@@ -34,7 +42,7 @@ export const RecipeCard = ({
 
       <div className="p-6">
         {/* Recipe Title */}
-        <h2 className="text-2xl font-bold text-amber-900 mb-4">{recipe.title || recipe.name}</h2>
+        <h2 className="text-2xl font-bold text-amber-900 mb-4">{recipeTitle}</h2>
 
         <div className="grid md:grid-cols-2 gap-6">
           {/* Left Column: Servings, Time, Ingredients */}
@@ -44,30 +52,24 @@ export const RecipeCard = ({
               {recipe.servings && (
                 <div className="flex items-center gap-1">
                   <span>🍽️</span>
-                  <span className="font-medium">{recipe.servings} servings</span>
+                  <span className="font-medium">{recipe.servings}</span>
                 </div>
               )}
-              {recipe.time && (
+              {(recipe.time || recipe.prepTime) && (
                 <div className="flex items-center gap-1">
                   <span>⏱️</span>
-                  <span className="font-medium">{recipe.time}</span>
-                </div>
-              )}
-              {recipe.prepTime && (
-                <div className="flex items-center gap-1">
-                  <span>⏱️</span>
-                  <span className="font-medium">{recipe.prepTime}</span>
+                  <span className="font-medium">{recipe.time || recipe.prepTime}</span>
                 </div>
               )}
             </div>
 
             {/* Ingredients List */}
-            {recipe.ingredients && recipe.ingredients.length > 0 && (
+            {ingredients.length > 0 && (
               <div>
                 <h3 className="text-lg font-semibold text-amber-900 mb-2">Ingredients</h3>
                 <ul className="space-y-1">
-                  {recipe.ingredients.map((ingredient, index) => (
-                    <li key={index} className="flex items-start gap-2 text-amber-800">
+                  {ingredients.map((ingredient, index) => (
+                    <li key={index} className="flex items-start gap-2 text-amber-800 animate-fadeIn" style={{ animationDelay: `${index * 50}ms` }}>
                       <span className="text-amber-600 mt-1 text-sm">•</span>
                       <span className="text-sm">{ingredient}</span>
                     </li>
@@ -80,12 +82,14 @@ export const RecipeCard = ({
           {/* Right Column: Directions */}
           <div className="space-y-4">
             {/* Directions */}
-            {recipe.directions && recipe.directions.length > 0 && (
+            {directionsArray.length > 0 && (
               <div>
-                <h3 className="text-lg font-semibold text-amber-900 mb-2">Directions</h3>
+                <h3 className="text-lg font-semibold text-amber-900 mb-2">
+                  {recipe.directions ? 'Directions' : 'Instructions'}
+                </h3>
                 <ol className="space-y-2">
-                  {recipe.directions.map((direction, index) => (
-                    <li key={index} className="flex gap-3 text-amber-800">
+                  {directionsArray.map((direction, index) => (
+                    <li key={index} className="flex gap-3 text-amber-800 animate-fadeIn" style={{ animationDelay: `${index * 50}ms` }}>
                       <span className="bg-amber-200 text-amber-900 rounded-full w-6 h-6 flex items-center justify-center text-sm font-semibold flex-shrink-0 mt-0.5">
                         {index + 1}
                       </span>
@@ -96,31 +100,17 @@ export const RecipeCard = ({
               </div>
             )}
 
-            {recipe.instructions && recipe.instructions.length > 0 && (
-              <div>
-                <h3 className="text-lg font-semibold text-amber-900 mb-2">Instructions</h3>
-                <ol className="space-y-2">
-                  {recipe.instructions.map((instruction, index) => (
-                    <li key={index} className="flex gap-3 text-amber-800">
-                      <span className="bg-amber-200 text-amber-900 rounded-full w-6 h-6 flex items-center justify-center text-sm font-semibold flex-shrink-0 mt-0.5">
-                        {index + 1}
-                      </span>
-                      <span className="text-sm leading-relaxed">{instruction}</span>
-                    </li>
-                  ))}
-                </ol>
+            {/* Save Button */}
+            {onSave && (
+              <div className="flex justify-end pt-4">
+                <button
+                  onClick={handleSave}
+                  className="px-6 py-2 bg-amber-600 text-white font-medium rounded-lg hover:bg-amber-700 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2"
+                >
+                  Save Recipe
+                </button>
               </div>
             )}
-
-            {/* Save Button */}
-            <div className="flex justify-end pt-4">
-              <button
-                onClick={handleSave}
-                className="px-6 py-2 bg-amber-600 text-white font-medium rounded-lg hover:bg-amber-700 transition-colors focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2"
-              >
-                Save Recipe
-              </button>
-            </div>
           </div>
         </div>
 

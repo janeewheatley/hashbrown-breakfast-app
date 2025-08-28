@@ -1,19 +1,39 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { HashbrownProvider } from '@hashbrownai/react'
 import { IngredientTextInput } from '../hb/components/IngredientTextInput.jsx'
 import { QuickSelectChips } from '../hb/components/QuickSelectChips.jsx'
 import { HamburgerMenu } from '../hb/components/HamburgerMenu.jsx'
-import { RecipeChat } from '../hb/components/RecipeChat.jsx'
+import { RecipeChatSimple as RecipeChat } from '../hb/components/RecipeChatSimple.jsx'
 
 export default function HomePage() {
+  const [mounted, setMounted] = useState(false)
   const [typedIngredients, setTypedIngredients] = useState([])
   const [selectedIngredients, setSelectedIngredients] = useState([])
   const [ingredientFeedback, setIngredientFeedback] = useState('')
+  const [recipeChatRef, setRecipeChatRef] = useState(null)
 
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   const allIngredients = [...typedIngredients, ...selectedIngredients]
+  
+  const handleGenerateRecipe = (ingredients) => {
+    if (recipeChatRef && recipeChatRef.generateRecipe) {
+      recipeChatRef.generateRecipe(ingredients)
+    }
+  }
+  
+  // Prevent SSR issues by not rendering HashbrownProvider until mounted
+  if (!mounted) {
+    return (
+      <div className="min-h-screen bg-amber-50 flex items-center justify-center">
+        <div className="text-amber-700">Loading...</div>
+      </div>
+    )
+  }
 
   return (
     <HashbrownProvider url="/api/generate">
@@ -26,6 +46,7 @@ export default function HomePage() {
           <div className="space-y-6">
             <IngredientTextInput 
               onIngredientsChange={setTypedIngredients}
+              onSubmit={handleGenerateRecipe}
             />
             
             <QuickSelectChips 
@@ -46,6 +67,7 @@ export default function HomePage() {
             <RecipeChat 
               ingredients={allIngredients}
               onIngredientRequest={setIngredientFeedback}
+              onReady={setRecipeChatRef}
             />
           </div>
         </div>
@@ -60,6 +82,7 @@ export default function HomePage() {
 
           <IngredientTextInput 
             onIngredientsChange={setTypedIngredients}
+            onSubmit={handleGenerateRecipe}
           />
           
           <QuickSelectChips 
@@ -79,6 +102,7 @@ export default function HomePage() {
             <RecipeChat 
               ingredients={allIngredients}
               onIngredientRequest={setIngredientFeedback}
+              onReady={setRecipeChatRef}
             />
           </div>
         </div>

@@ -1,4 +1,4 @@
-import { useMemo, useEffect } from 'react'
+import { useMemo, useEffect, useCallback } from 'react'
 import { useUiChat } from '@hashbrownai/react'
 import { functions } from '../functions.js'
 import { allExposedComponents } from '../exposed-components.jsx'
@@ -42,7 +42,7 @@ export const RecipeChat = ({ ingredients, onIngredientRequest, onReady }) => {
     return isSending || isReceiving || isRunningToolCalls
   }, [isSending, isReceiving, isRunningToolCalls])
 
-  const generateRecipe = (ingredientList) => {
+  const generateRecipe = useCallback((ingredientList) => {
     if (!ingredientList || ingredientList.length === 0) {
       if (onIngredientRequest) {
         onIngredientRequest('Please select some ingredients first!')
@@ -50,20 +50,33 @@ export const RecipeChat = ({ ingredients, onIngredientRequest, onReady }) => {
       return
     }
     
-    const userMessage = {
-      role: 'user',
-      content: `Create a delicious breakfast recipe using these ingredients: ${ingredientList.join(', ')}`
+    // Check if sendMessage is available
+    if (!sendMessage) {
+      console.error('sendMessage is not available from useUiChat')
+      if (onIngredientRequest) {
+        onIngredientRequest('Recipe generation is not available at the moment')
+      }
+      return
     }
     
-    // Send message to Hashbrown UI Chat system
-    sendMessage(userMessage)
-  }
+    const messageContent = `Create a delicious breakfast recipe using these ingredients: ${ingredientList.join(', ')}`
+    
+    try {
+      // Send message to Hashbrown UI Chat system - sendMessage expects just the content string
+      sendMessage(messageContent)
+    } catch (error) {
+      console.error('Error sending message:', error)
+      if (onIngredientRequest) {
+        onIngredientRequest('Failed to generate recipe. Please try again.')
+      }
+    }
+  }, [sendMessage, onIngredientRequest])
 
   // Remove auto-generation - only generate on explicit user action
   
   // Expose generateRecipe function to parent component
   useEffect(() => {
-    if (onReady) {
+    if (onReady && generateRecipe) {
       onReady({ generateRecipe })
     }
   }, [onReady, generateRecipe])
