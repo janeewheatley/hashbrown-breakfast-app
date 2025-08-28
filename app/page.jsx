@@ -29,8 +29,8 @@ export default function HomePage() {
   // Prevent SSR issues by not rendering HashbrownProvider until mounted
   if (!mounted) {
     return (
-      <div className="min-h-screen bg-amber-50 flex items-center justify-center">
-        <div className="text-amber-700">Loading...</div>
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <div className="text-red-700">Loading...</div>
       </div>
     )
   }
