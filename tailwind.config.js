@@ -5,8 +5,12 @@ module.exports = {
     './hb/**/*.{js,jsx}',
     './src/**/*.{js,jsx}',
   ],
-  theme: {
-    extend: {},
+    theme: {
+      extend: {
+        fontFamily: {
+          title: ['Montserrat', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        },
+      },
   },
   plugins: [],
 }

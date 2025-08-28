@@ -12,7 +12,7 @@ export const RichMessage = ({ message, onRetry, isLast }) => {
   if (message.role === 'assistant') {
     return (
       <div className="flex justify-start mb-4">
-        <div className="bg-white border border-amber-200 px-4 py-2 rounded-lg rounded-bl-none max-w-xs lg:max-w-md shadow-sm">
+        <div className="bg-white border border-red-200 px-4 py-2 rounded-lg rounded-bl-none max-w-xs lg:max-w-md shadow-sm">
           {message.content && (
             <p className="text-sm text-amber-900 mb-2">{message.content}</p>
           )}
