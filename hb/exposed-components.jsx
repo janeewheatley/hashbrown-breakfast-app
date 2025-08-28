@@ -1,5 +1,4 @@
 import { exposeComponent } from '@hashbrownai/react'
-import { s } from '@hashbrownai/core'
 import { IngredientTextInput } from './components/IngredientTextInput.jsx'
 import { QuickSelectChips } from './components/QuickSelectChips.jsx'
 import { RecipeCard } from './components/RecipeCard.jsx'
@@ -10,7 +9,7 @@ export const exposedComponents = [
     name: 'IngredientTextInput',
     description: 'A text input component for entering ingredients',
     props: {
-      placeholder: s.string('Placeholder text for the input'),
+      placeholder: 'string',
     },
     // onIngredientsChange callback is handled internally
   }),
@@ -19,7 +18,7 @@ export const exposedComponents = [
     name: 'QuickSelectChips',
     description: 'Pill-shaped buttons for quickly selecting common breakfast ingredients',
     props: {
-      selectedIngredients: s.array('Array of currently selected ingredients', s.string()),
+      selectedIngredients: 'array',
     },
     // onSelectionChange callback is handled internally
   }),
@@ -28,17 +27,7 @@ export const exposedComponents = [
     name: 'RecipeCard',
     description: 'A card component that displays a complete recipe with ingredients, directions, and save functionality',
     props: {
-      recipe: s.object('Recipe object', {
-        title: s.string('Recipe title'),
-        name: s.string('Recipe name (alternative to title)'),
-        description: s.string('Recipe description'),
-        ingredients: s.array('List of ingredients', s.string()),
-        directions: s.array('List of cooking directions', s.string()),
-        instructions: s.array('List of cooking instructions (alternative to directions)', s.string()),
-        servings: s.string('Number of servings'),
-        time: s.string('Total cooking time'),
-        prepTime: s.string('Preparation time'),
-      }),
+      recipe: 'object',
     },
     // onSave callback is handled internally
   }),
@@ -75,8 +64,8 @@ export const allExposedComponents = [
     description: 'Show a card with title, description and children components',
     children: 'any',
     props: {
-      title: s.string('The title of the card'),
-      description: s.string('The description of the card'),
+      title: 'string',
+      description: 'string',
     },
   }),
 ]

@@ -16,7 +16,6 @@
     "@hashbrownai/react": "0.2.3",
     "@hashbrownai/core": "0.2.3",
     "@hashbrownai/openai": "0.2.3",
-    "zod": "^3.23.0",
     "@radix-ui/react-separator": "^1.1.0",
     "@radix-ui/react-switch": "^1.1.0",
     "@radix-ui/react-label": "^2.1.0",
