@@ -6,8 +6,8 @@ export const QuickSelectChips = ({ selectedIngredients = [], onSelectionChange }
   const [selected, setSelected] = useState(new Set(selectedIngredients))
   const { output } = useStructuredCompletion({
     debugName: 'CommonIngredients',
-    model: 'gpt-4o-mini',
-    system: `You are a helpful assistant that suggests common breakfast ingredients.`,
+    model: 'gpt-4.1',
+    system: `You are a helpful assistant that suggests common breakfast ingredients. These should be raw ingredients rather than fully made breakfast items.`,
     input: 'List common breakfast ingredients.',
     schema: s.streaming.array('The list of common breakfast ingredients', s.string('An ingredient name')),
   })
