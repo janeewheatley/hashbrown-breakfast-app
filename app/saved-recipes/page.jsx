@@ -28,13 +28,11 @@ export default function SavedRecipesPage() {
 
   return (
     <HashbrownProvider url="/api/generate">
-      <div className="min-h-screen bg-amber-50">
+  <div className="min-h-screen bg-white flex flex-col items-center">
         {/* Header */}
-        <header className="bg-amber-100 border-b border-amber-200 sticky top-0 z-30">
-          <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-            <HamburgerMenu />
-            <h1 className="text-2xl font-bold text-amber-800">Saved Recipes</h1>
-            <div className="w-10" /> {/* Spacer for centering */}
+  <header className="bg-white-100 border-b border-red-200 sticky top-0 z-30 w-full">
+          <div className="container mx-auto px-4 py-4 flex items-center justify-center">
+            <h1 className="text-2xl font-bold text-black text-center">Saved Recipes</h1>
           </div>
         </header>
 
@@ -42,16 +40,16 @@ export default function SavedRecipesPage() {
       <main className="container mx-auto px-4 py-8 max-w-4xl">
         {savedRecipes.length === 0 ? (
           <div className="text-center py-16">
-            <div className="w-24 h-24 mx-auto mb-6 bg-amber-200 rounded-full flex items-center justify-center">
+            <div className="w-24 h-24 mx-auto mb-6 bg-white-200 rounded-full flex items-center justify-center">
               <span className="text-4xl">📖</span>
             </div>
-            <h2 className="text-2xl font-bold text-amber-900 mb-2">No Saved Recipes Yet</h2>
+            <h2 className="text-2xl font-bold text-black-900 mb-2">No Saved Recipes Yet</h2>
             <p className="text-amber-700 mb-6">
               Save recipes from the home page to see them here!
             </p>
             <a
               href="/"
-              className="inline-block px-6 py-3 bg-amber-600 text-white font-medium rounded-lg hover:bg-amber-700 transition-colors"
+              className="inline-block px-6 py-3 bg-red-600 text-white font-medium rounded-lg hover:bg-amber-700 transition-colors"
             >
               Find Recipes
             </a>
