@@ -1,13 +1,10 @@
-import { useMemo } from 'react'
-import { useUiChat, useTool } from '@hashbrownai/react'
+import { useMemo, useEffect } from 'react'
+import { useUiChat } from '@hashbrownai/react'
 import { functions } from '../functions.js'
 import { allExposedComponents } from '../exposed-components.jsx'
 import { RichMessage } from './RichMessage.jsx'
 
-export const RecipeChat = ({ ingredients, onIngredientRequest }) => {
-  // Use the simplified getRecipe function within HashbrownProvider context
-  const { execute: getRecipe, isLoading } = useTool(functions.getRecipe)
-
+export const RecipeChat = ({ ingredients, onIngredientRequest, onReady }) => {
   // Hashbrown UI Chat for enhanced recipe generation
   const {
     messages,
@@ -37,13 +34,13 @@ export const RecipeChat = ({ ingredients, onIngredientRequest }) => {
       
       Always generate recipes as UI components using the RecipeCard component for better presentation.
     `,
-    tools: [getRecipe],
+    tools: [functions.getRecipe],
     components: allExposedComponents,
   })
 
   const isWorking = useMemo(() => {
-    return isSending || isReceiving || isRunningToolCalls || isLoading
-  }, [isSending, isReceiving, isRunningToolCalls, isLoading])
+    return isSending || isReceiving || isRunningToolCalls
+  }, [isSending, isReceiving, isRunningToolCalls])
 
   const generateRecipe = (ingredientList) => {
     if (!ingredientList || ingredientList.length === 0) {
@@ -62,12 +59,14 @@ export const RecipeChat = ({ ingredients, onIngredientRequest }) => {
     sendMessage(userMessage)
   }
 
-  // Auto-generate recipe when ingredients change (if there are ingredients)
-  useMemo(() => {
-    if (ingredients && ingredients.length > 0) {
-      generateRecipe(ingredients)
+  // Remove auto-generation - only generate on explicit user action
+  
+  // Expose generateRecipe function to parent component
+  useEffect(() => {
+    if (onReady) {
+      onReady({ generateRecipe })
     }
-  }, [ingredients])
+  }, [onReady, generateRecipe])
 
   return (
     <div className="flex flex-col h-full">

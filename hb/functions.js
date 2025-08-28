@@ -2,6 +2,7 @@
 
 export const functions = {
   getRecipe: {
+    name: 'getRecipe',
     description: 'Fetch and generate a breakfast recipe based on input text',
     parameters: {
       type: 'object',
