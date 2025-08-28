@@ -26,10 +26,10 @@ export const IngredientTextInput = ({ onIngredientsChange, placeholder = "Enter 
         value={value}
         onChange={handleChange}
         placeholder={placeholder}
-        className="w-full px-4 py-3 border border-amber-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent resize-none"
+        className="w-full px-4 py-3 border border-red-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent resize-none"
         rows={3}
       />
-      <p className="text-xs text-amber-600 mt-1">
+      <p className="text-xs text-red-700 bg-red-100 px-2 py-1 rounded mt-1 inline-block">
         Separate multiple ingredients with commas
       </p>
     </div>

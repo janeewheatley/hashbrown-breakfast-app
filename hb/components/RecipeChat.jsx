@@ -74,7 +74,7 @@ export const RecipeChat = ({ ingredients, onIngredientRequest, onReady }) => {
       {isWorking && (
         <div className="text-center mb-4">
           <div className="inline-flex items-center gap-2 text-amber-700 text-sm">
-            <div className="animate-spin rounded-full h-4 w-4 border-2 border-amber-300 border-t-amber-600"></div>
+            <div className="animate-spin rounded-full h-4 w-4 border-2 border-red-300 border-t-red-600"></div>
             Thinking about your ingredients...
           </div>
         </div>
@@ -83,7 +83,7 @@ export const RecipeChat = ({ ingredients, onIngredientRequest, onReady }) => {
       {/* Chat Messages */}
       <div className="flex-1 overflow-y-auto space-y-4">
         {messages.length === 0 ? (
-          <div className="text-center text-amber-600 mt-8">
+          <div className="text-center text-black-600 mt-8">
             <div className="w-16 h-16 mx-auto mb-4 bg-amber-100 rounded-full flex items-center justify-center">
               <span className="text-2xl">🍳</span>
             </div>
@@ -106,7 +106,7 @@ export const RecipeChat = ({ ingredients, onIngredientRequest, onReady }) => {
           <button
             onClick={() => generateRecipe(ingredients)}
             disabled={isWorking}
-            className="w-full bg-amber-600 text-white py-2 px-4 rounded-lg hover:bg-amber-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors font-medium text-sm"
+            className="w-full bg-red-600 text-white py-2 px-4 rounded-lg hover:bg-amber-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors font-medium text-sm"
           >
             {isWorking ? 'Creating Recipe...' : 'Generate New Recipe'}
           </button>

@@ -5,9 +5,9 @@ export const RecipeCard = ({
 }) => {
   if (!recipe) {
     return (
-      <div className={`bg-white rounded-xl shadow-lg border border-amber-200 p-6 ${className}`}>
-        <div className="text-center text-amber-600">
-          <div className="w-16 h-16 mx-auto mb-4 bg-amber-100 rounded-full flex items-center justify-center">
+      <div className={`bg-white rounded-xl shadow-lg border border-red-200 p-6 ${className}`}>
+        <div className="text-center text-red-600">
+          <div className="w-16 h-16 mx-auto mb-4 bg-red-100 rounded-full flex items-center justify-center">
             <span className="text-2xl">🍳</span>
           </div>
           <p>Enter ingredients to get recipe suggestions!</p>
@@ -23,7 +23,7 @@ export const RecipeCard = ({
   }
 
   return (
-    <div className={`bg-white rounded-xl shadow-lg border border-amber-200 overflow-hidden ${className}`}>
+    <div className={`bg-white rounded-xl shadow-lg border border-red-200 overflow-hidden ${className}`}>
       {/* Recipe Image */}
       <div className="w-full h-48 bg-gradient-to-br from-amber-100 to-orange-200 flex items-center justify-center">
         <div className="text-center text-amber-800">
@@ -126,7 +126,7 @@ export const RecipeCard = ({
 
         {/* Description if exists */}
         {recipe.description && (
-          <div className="mt-6 pt-4 border-t border-amber-100">
+          <div className="mt-6 pt-4 border-t border-red-100">
             <p className="text-amber-800 leading-relaxed">{recipe.description}</p>
           </div>
         )}
