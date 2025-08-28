@@ -1,5 +1,4 @@
 import { NextResponse } from 'next/server'
-import { Chat } from '@hashbrownai/core'
 import { HashbrownOpenAI } from '@hashbrownai/openai'
 import { generateRequestSchema } from '../../../lib/schemas.js'
 import { layoutSchema } from '../../../hb/schema.js'
