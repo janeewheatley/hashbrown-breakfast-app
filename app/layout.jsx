@@ -14,7 +14,11 @@ export default function RootLayout({ children }) {
           <header className="bg-white-100">
             <div className="container mx-auto px- py-1 flex items-center gap-4">
               <HamburgerMenu />
-                <h1 className="text-3xl font-title font-bold text-red-600 text-center flex-1 mt-2">breakfast brAIn</h1>
+                <h1 className="text-3xl font-title font-bold text-center flex-1 mt-2">
+                  <span className="text-red-600">breakfast br</span>
+                  <span className="text-black">AI</span>
+                  <span className="text-red-600">n</span>
+                </h1>
               <div className="w-10" /> {/* Spacer for centering */}
             </div>
           </header>
