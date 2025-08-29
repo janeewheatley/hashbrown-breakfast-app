@@ -75,8 +75,16 @@ export default function SavedRecipesPage() {
                 >
                   <div className="flex">
                     {/* Recipe Image */}
-                    <div className="w-24 h-24 bg-gradient-to-br from-red-100 to-red-200 flex items-center justify-center flex-shrink-0">
-                      <span className="text-2xl">🍽️</span>
+                    <div className="w-24 h-24 bg-gradient-to-br from-red-100 to-red-200 flex items-center justify-center flex-shrink-0 overflow-hidden">
+                      {recipe.image ? (
+                        <img 
+                          src={recipe.image} 
+                          alt={recipe.title || recipe.name}
+                          className="w-full h-full object-cover"
+                        />
+                      ) : (
+                        <span className="text-2xl">🍽️</span>
+                      )}
                     </div>
 
                     {/* Recipe Info */}
