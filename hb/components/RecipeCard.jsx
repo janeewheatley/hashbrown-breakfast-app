@@ -1,8 +1,61 @@
+import { useState, useEffect } from 'react';
+import { generateRecipeImage } from '../utils/generateImage';
+import { isImageGenerationEnabled } from '../utils/checkApiConfig';
+
 export const RecipeCard = ({ 
   recipe, 
   onSave,
   className = ""
 }) => {
+  const [recipeImage, setRecipeImage] = useState(null);
+  const [isGeneratingImage, setIsGeneratingImage] = useState(false);
+  const [imageError, setImageError] = useState(null);
+
+  // Auto-generate image when recipe is loaded
+  useEffect(() => {
+    if (!recipe) return;
+    
+    const recipeTitle = recipe.title || recipe.name;
+    if (!recipeTitle) return;
+
+    // If recipe already has an image, use it
+    if (recipe.image) {
+      setRecipeImage(recipe.image);
+      return;
+    }
+
+    // Otherwise, auto-generate the image if API is configured
+    const generateImageAsync = async () => {
+      // First check if image generation is enabled
+      const isEnabled = await isImageGenerationEnabled();
+      if (!isEnabled) {
+        console.log('Image generation is not configured');
+        return;
+      }
+
+      // Check if we already have an image being generated or error state
+      if (isGeneratingImage || imageError) return;
+      
+      setIsGeneratingImage(true);
+      setImageError(null);
+      
+      try {
+        const image = await generateRecipeImage(recipeTitle);
+        setRecipeImage(image);
+      } catch (error) {
+        // Only log error, don't show it to user for auto-generation
+        console.error('Auto-generation failed:', error);
+        // Don't set error state for auto-generation to avoid UI clutter
+        // Users can still manually trigger generation if needed
+      } finally {
+        setIsGeneratingImage(false);
+      }
+    };
+
+    // Auto-generate image
+    generateImageAsync();
+  }, [recipe]);
+
   if (!recipe) {
     return (
       <div className={`bg-white rounded-xl shadow-lg border border-red-200 p-6 ${className}`}>
@@ -18,7 +71,11 @@ export const RecipeCard = ({
 
   const handleSave = () => {
     if (onSave) {
-      onSave(recipe)
+      // Include the generated image if available
+      const recipeWithImage = recipeImage 
+        ? { ...recipe, image: recipeImage }
+        : recipe;
+      onSave(recipeWithImage)
     }
   }
 
@@ -33,11 +90,29 @@ export const RecipeCard = ({
   return (
     <div className={`bg-white rounded-xl shadow-lg border border-red-200 overflow-hidden ${className}`}>
       {/* Recipe Image */}
-      <div className="w-full h-48 bg-gradient-to-br from-red-100 to-red-200 flex items-center justify-center">
-        <div className="text-center text-red-800">
-          <span className="text-4xl mb-2 block">🍽️</span>
-          <p className="text-sm opacity-75">Recipe Image</p>
-        </div>
+      <div className="w-full h-48 bg-gradient-to-br from-red-100 to-red-200 flex items-center justify-center relative overflow-hidden">
+        {recipeImage ? (
+          <img 
+            src={recipeImage} 
+            alt={recipeTitle}
+            className="w-full h-full object-cover"
+          />
+        ) : isGeneratingImage ? (
+          <div className="text-center text-red-800">
+            <div className="w-8 h-8 border-4 border-red-600 border-t-transparent rounded-full animate-spin mx-auto mb-2"></div>
+            <p className="text-sm opacity-75">Generating image...</p>
+          </div>
+        ) : (
+          <div className="text-center text-red-800">
+            <span className="text-4xl mb-2 block">🍽️</span>
+            <p className="text-sm opacity-75">Recipe Image</p>
+          </div>
+        )}
+        {imageError && (
+          <div className="absolute bottom-2 left-2 right-2 bg-red-600 text-white text-xs p-2 rounded">
+            {imageError}
+          </div>
+        )}
       </div>
 
       <div className="p-6">

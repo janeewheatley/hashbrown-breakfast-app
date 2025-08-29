@@ -3,9 +3,11 @@
 import { useState, useEffect } from 'react'
 import { HashbrownProvider } from '@hashbrownai/react'
 import { HamburgerMenu } from '../../hb/components/HamburgerMenu.jsx'
+import { useRouter } from 'next/navigation'
 
 export default function SavedRecipesPage() {
   const [savedRecipes, setSavedRecipes] = useState([])
+  const router = useRouter()
 
   useEffect(() => {
     // Load saved recipes from localStorage
@@ -68,12 +70,21 @@ export default function SavedRecipesPage() {
               {savedRecipes.map((recipe, index) => (
                 <div
                   key={index}
-                  className="bg-white rounded-xl shadow-md border border-red-200 overflow-hidden hover:shadow-lg transition-shadow"
+                  className="bg-white rounded-xl shadow-md border border-red-200 overflow-hidden hover:shadow-lg transition-shadow cursor-pointer"
+                  onClick={() => router.push(`/recipe/${index}`)}
                 >
                   <div className="flex">
                     {/* Recipe Image */}
-                    <div className="w-24 h-24 bg-gradient-to-br from-red-100 to-red-200 flex items-center justify-center flex-shrink-0">
-                      <span className="text-2xl">🍽️</span>
+                    <div className="w-24 h-24 bg-gradient-to-br from-red-100 to-red-200 flex items-center justify-center flex-shrink-0 overflow-hidden">
+                      {recipe.image ? (
+                        <img 
+                          src={recipe.image} 
+                          alt={recipe.title || recipe.name}
+                          className="w-full h-full object-cover"
+                        />
+                      ) : (
+                        <span className="text-2xl">🍽️</span>
+                      )}
                     </div>
 
                     {/* Recipe Info */}
@@ -116,7 +127,10 @@ export default function SavedRecipesPage() {
 
                         {/* Remove Button */}
                         <button
-                          onClick={() => removeRecipe(index)}
+                          onClick={(e) => {
+                            e.stopPropagation()
+                            removeRecipe(index)
+                          }}
                           className="ml-4 p-2 text-red-500 hover:text-red-700 hover:bg-red-50 rounded-full transition-colors"
                           title="Remove recipe"
                         >
